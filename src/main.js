@@ -9,7 +9,9 @@ import 'mint-ui/lib/style.css';
 
 Vue.use(MintUI);
 
+//导入mui字体图标的css
 import './lib/mui/css/mui.css'
+import './lib/mui/css/icons-extra.css'
 
 
 Vue.config.productionTip = false
