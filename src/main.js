@@ -22,6 +22,12 @@ Vue.http.options.root = 'http://www.lovegf.cn:8899/'
 //配置默认的post提交数据类型为传统表单
 Vue.http.options.emulateJSON = true
 
+//导入格式化时间包
+import moment from 'moment'
+//定义全局时间过滤器: dateFormat
+Vue.filter('dateFormat', (date, pattern = 'YYYY-MM-DD HH:mm:ss') => {
+  return moment(date).format(pattern)
+})
 
 Vue.config.productionTip = false
 
