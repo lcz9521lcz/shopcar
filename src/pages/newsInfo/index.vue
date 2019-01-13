@@ -57,5 +57,12 @@ export default {
     justify-content: space-between;
     color: #2600ff;
   }
+  .content {
+    p {
+      img {
+        width: 100%;
+      }
+    }
+  }
 }
 </style>
