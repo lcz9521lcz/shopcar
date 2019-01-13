@@ -2,7 +2,7 @@
   <div class="news-list-container">
     <ul class="mui-table-view">
       <li class="mui-table-view-cell mui-media" v-for="item in newsList" :key="item.id">
-        <a href="javascript:;">
+        <router-link :to="'/home/newsInfo/' + item.id">
           <img :src="item.img_url" class="mui-media-object mui-pull-left">
           <div class="mui-media-body">
             <h3 class="mui-ellipsis">{{ item.title }}</h3>
@@ -11,13 +11,15 @@
               <span>点击: {{ item.click }}次</span>
             </p>
           </div>
-        </a>
+        </router-link>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { Toast } from "mint-ui";
+
 export default {
   data() {
     return {
@@ -32,6 +34,8 @@ export default {
       this.$http.get("api/getnewslist").then(result => {
         if (result.body.status === 0) {
           this.newsList = result.body.message;
+        } else {
+          Toast("数据获取失败!");
         }
       });
     }

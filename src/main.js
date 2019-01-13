@@ -29,6 +29,11 @@ Vue.filter('dateFormat', (date, pattern = 'YYYY-MM-DD HH:mm:ss') => {
   return moment(date).format(pattern)
 })
 
+//定义全局组件---评论组件
+import comment from './components/common/comment'
+//注册定义全局组件,参数1:组件名  参数2:组件对象
+Vue.component('comment', comment)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
