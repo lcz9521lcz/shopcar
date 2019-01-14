@@ -5,9 +5,9 @@
       <div class="mui-card-content">
         <div class="mui-card-content-inner">
           <mt-swipe :auto="3000" :speed="300">
-            <mt-swipe-item>1</mt-swipe-item>
-            <mt-swipe-item>2</mt-swipe-item>
-            <mt-swipe-item>3</mt-swipe-item>
+            <mt-swipe-item v-for="(item,i) in list" :key="i">
+              <img :src="item.src" alt>
+            </mt-swipe-item>
           </mt-swipe>
         </div>
       </div>
@@ -15,14 +15,14 @@
 
     <!-- 商品名称 -->
     <div class="mui-card">
-      <div class="mui-card-header">商品名称</div>
+      <div class="mui-card-header">{{ goodsInfo.title }}</div>
       <div class="mui-card-content">
         <div class="mui-card-content-inner">
           <p class="price">
             市场价:
-            <del>¥800</del>&nbsp;&nbsp;
+            <del>¥{{ goodsInfo.market_price }}</del>&nbsp;&nbsp;
             销售价:
-            <span>¥600</span>
+            <span>¥{{ goodsInfo.sell_price }}</span>
           </p>
           <!-- 商品购买数量 -->
           <div class="buy-count">
@@ -47,9 +47,9 @@
       <div class="mui-card-header">商品参数</div>
       <div class="mui-card-content">
         <div class="mui-card-content-inner">
-          <p>商品货号: lhlhlkh</p>
-          <p>库存情况: 200件</p>
-          <p>上架时间: 6465464</p>
+          <p>商品货号: {{ goodsInfo.goods_no }}</p>
+          <p>库存情况: {{ goodsInfo.stock_quantity }}件</p>
+          <p>上架时间: {{ goodsInfo.add_time | dateFormat }}</p>
         </div>
       </div>
       <div class="mui-card-footer">
@@ -64,18 +64,45 @@
 export default {
   data() {
     return {
-      buyCount: 1
+      buyCount: 1,
+      id: this.$route.params.id,
+      list: [],
+      goodsInfo: {}
     };
+  },
+  created() {
+    this.getCarousel();
+    this.getGoodsInfo();
+  },
+  methods: {
+    //获取商品的图文介绍数据---轮播图
+    getCarousel() {
+      this.$http.get("api/getthumimages/" + this.id).then(result => {
+        if (result.body.status === 0) {
+          this.list = result.body.message;
+        }
+      });
+    },
+    //获取商品详情
+    getGoodsInfo() {
+      this.$http.get("api/goods/getinfo/" + this.id).then(result => {
+        this.goodsInfo = result.body.message[0];
+      });
+    }
   }
 };
 </script>
 
 <style lang="less" scoped>
 .goods-info-container {
-  overflow: hidden;
+  overflow: hidden; //盒子塌陷
   background-color: yellowgreen;
   .mint-swipe {
     height: 200px;
+    text-align: center;
+    img {
+      height: 100%;
+    }
   }
   .price {
     span {
