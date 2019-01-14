@@ -54,6 +54,9 @@ export default {};
     white-space: nowrap;
     text-overflow: ellipsis;
     color: #929292;
+    &.mui-active {
+      color: #007aff;
+    }
     .mui-icon {
       top: 3px;
       width: 24px;

@@ -34,6 +34,10 @@ import comment from './components/common/comment'
 //注册定义全局组件,参数1:组件名  参数2:组件对象
 Vue.component('comment', comment)
 
+// 图片预览插件---缩略图
+import VuePreview from 'vue2-preview'
+Vue.use(VuePreview)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
