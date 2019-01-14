@@ -14,6 +14,9 @@
         </p>
       </div>
     </div>
+
+    <!-- 加载更多 -->
+    <mt-button v-if="hasMore" type="danger" size="large" @tap="getMore">加载更多</mt-button>
   </div>
 </template>
 
@@ -22,7 +25,8 @@ export default {
   data() {
     return {
       pageindex: 1,
-      list: []
+      list: [],
+      hasMore: true
     };
   },
   created() {
@@ -32,9 +36,19 @@ export default {
     getGoodsList() {
       this.$http.get("api/getgoods?pageindex" + this.pageindex).then(result => {
         if (result.body.status === 0) {
-          this.list = result.body.message;
+          //   this.list = result.body.message;
+          //获取更多
+          this.list = this.list.concat(result.body.message);
+          //判断获取到的数据是否为空
+          if (result.body.message.length === 0) {
+            this.hasMore = false;
+          }
         }
       });
+    },
+    getMore() {
+      pageindex++;
+      this.getGoodsList();
     }
   }
 };
