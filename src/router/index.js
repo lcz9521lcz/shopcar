@@ -10,6 +10,7 @@ import newsInfoContainer from '../pages/newsInfo'
 import photoListContainer from '../pages/photoList'
 import photoInfoContainer from '../pages/photoInfo'
 import goodsListContainer from '../pages/goodsList'
+import goodsInfoContainer from '../pages/goodsInfo'
 
 Vue.use(Router)
 
@@ -53,6 +54,11 @@ export default new Router({
     {
       path: '/home/goodsList',
       component: goodsListContainer
+    },
+    {
+      name: 'goodsInfo',
+      path: '/home/goodsInfo/:id',
+      component: goodsInfoContainer
     }
   ],
   linkActiveClass: 'mui-active' //覆盖默认的路由高亮的类,默认的类叫做router-link-active
