@@ -18,13 +18,13 @@
 
     <!-- 图片列表区域 -->
     <ul class="photo-list">
-      <li v-for="item in list" :key="item.id">
+      <router-link tag="li" :to="'/home/photoInfo/' + item.id" v-for="item in list" :key="item.id">
         <img v-lazy="item.img_url" alt>
         <div class="info">
           <h1 class="info-title">{{ item.title }}</h1>
           <div class="info-content">{{ item.zhaiyao }}</div>
         </div>
-      </li>
+      </router-link>
     </ul>
   </div>
 </template>
