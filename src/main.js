@@ -38,11 +38,23 @@ Vue.component('comment', comment)
 import VuePreview from 'vue2-preview'
 Vue.use(VuePreview)
 
+// 引入vuex---实现组件之间的通讯
+import Vuex from 'vuex'
+//注册
+Vue.use(Vuex)
+// 创建对象---store
+const store = new Vuex.Store({
+  state: {},
+  mutations: {},
+  getters: {}
+})
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })

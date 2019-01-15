@@ -153,7 +153,6 @@ export default {
   }
   .mui-card {
     overflow: visible;
-    position: relative;
   }
   .price {
     span {
