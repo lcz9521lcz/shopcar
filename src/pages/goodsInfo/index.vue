@@ -59,7 +59,7 @@
       </div>
       <div class="mui-card-footer">
         <mt-button type="primary" size="large" plain @click="getDesc(id)">图文介绍</mt-button>
-        <mt-button type="danger" size="large" plain>商品评论</mt-button>
+        <mt-button type="danger" size="large" plain @click="goGoodsComments(id)">商品评论</mt-button>
       </div>
     </div>
   </div>
@@ -98,6 +98,10 @@ export default {
     getDesc(id) {
       //点击使用编程式导航跳转到图文介绍页面
       this.$router.push({ name: "goodsDesc", params: { id } });
+    },
+    //商品评论
+    goGoodsComments(id) {
+      this.$router.push({ name: "goodsComments", params: { id } });
     }
   }
 };
