@@ -28,9 +28,14 @@
           <div class="buy-count">
             <div>购买数量:</div>
             <div class="num-box">
-              <input type="button" value="-">
+              <input type="button" value="-" @click="buyCount--" :disabled="buyCount <= 1">
               <input type="text" v-model="buyCount">
-              <input type="button" value="+">
+              <input
+                type="button"
+                value="+"
+                @click="buyCount++"
+                :disabled="buyCount >= goodsInfo.stock_quantity"
+              >
             </div>
           </div>
           <!-- 按钮 -->
@@ -124,6 +129,8 @@ export default {
         width: 55px;
         height: 33px;
         text-align: center;
+        padding: 0;
+        margin-bottom: 0;
       }
       input[type="button"] {
         width: 44px;
