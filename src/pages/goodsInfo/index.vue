@@ -28,6 +28,10 @@
           <div class="buy-count">
             <div>购买数量:</div>
             <div class="num-box">
+              <!-- 购物车小球半场动画 -->
+              <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+                <div class="ball" v-show="ballFlag" ref="ball"></div>
+              </transition>
               <input type="button" value="-" @click="buyCount--" :disabled="buyCount <= 1">
               <input type="text" v-model="buyCount">
               <input
@@ -41,7 +45,7 @@
           <!-- 按钮 -->
           <p>
             <mt-button type="primary" size="small">立即购买</mt-button>
-            <mt-button type="danger" size="small">加入购物车</mt-button>
+            <mt-button type="danger" size="small" @click="addToShopCar">加入购物车</mt-button>
           </p>
         </div>
       </div>
@@ -72,7 +76,8 @@ export default {
       buyCount: 1,
       id: this.$route.params.id,
       list: [],
-      goodsInfo: {}
+      goodsInfo: {},
+      ballFlag: false
     };
   },
   created() {
@@ -102,6 +107,34 @@ export default {
     //商品评论
     goGoodsComments(id) {
       this.$router.push({ name: "goodsComments", params: { id } });
+    },
+    // 添加购物车
+    addToShopCar() {
+      this.ballFlag = !this.ballFlag;
+    },
+    // 小球半场动画
+    beforeEnter(el) {
+      el.style.transform = "translate(0, 0)";
+    },
+    enter(el, done) {
+      el.offsetWidth;
+      // 获取小球在页面中的位置
+      const ballPosition = this.$refs.ball.getBoundingClientRect();
+      // 获取徽标在页面中的位置
+      const badgePosition = document
+        .getElementById("badge")
+        .getBoundingClientRect();
+      // console.log(ballPosition, badgePosition);
+      // 动态获取小球横向纵向需要位移的距离
+      const xDist = badgePosition.left - ballPosition.left;
+      const yDist = badgePosition.top - ballPosition.top;
+      // console.log(xDist, yDist);
+      el.style.transform = `translate(${xDist}px,${yDist}px)`;
+      el.style.transition = "all 1s cubic-bezier(.4,-0.3,1,.68)";
+      done();
+    },
+    afterEnter(el) {
+      this.ballFlag = !this.ballFlag;
     }
   }
 };
@@ -117,6 +150,10 @@ export default {
     img {
       height: 100%;
     }
+  }
+  .mui-card {
+    overflow: visible;
+    position: relative;
   }
   .price {
     span {
@@ -134,6 +171,17 @@ export default {
       width: 220px;
       height: 35px;
       margin-left: 22px;
+      position: relative;
+      .ball {
+        width: 15px;
+        height: 15px;
+        background-color: red;
+        border-radius: 50%;
+        position: absolute;
+        top: 9px;
+        left: 68px;
+        z-index: 99;
+      }
       input[type="text"] {
         width: 55px;
         height: 33px;
