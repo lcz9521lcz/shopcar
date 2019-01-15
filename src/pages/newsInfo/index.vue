@@ -43,7 +43,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .news-info-container {
   padding: 6px;
   .title {
@@ -58,10 +58,8 @@ export default {
     color: #2600ff;
   }
   .content {
-    p {
-      img {
-        width: 100%;
-      }
+    img {
+      width: 100%;
     }
   }
 }
