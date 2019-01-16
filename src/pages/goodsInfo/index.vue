@@ -111,6 +111,15 @@ export default {
     // 添加购物车
     addToShopCar() {
       this.ballFlag = !this.ballFlag;
+      // 拼接出一个要保存到store中car数组的商品信息对象
+      let goodsInfo = {
+        id: this.id,
+        count: this.buyCount,
+        price: this.goodsInfo.sell_price,
+        selected: true
+      };
+      // 调用store中的mutations来将商品加入购物车
+      this.$store.commit("addToCar", goodsInfo);
     },
     // 小球半场动画
     beforeEnter(el) {

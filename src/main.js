@@ -44,9 +44,39 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 // 创建对象---store
 const store = new Vuex.Store({
-  state: {},
-  mutations: {},
-  getters: {}
+  state: {
+    car: JSON.parse(localStorage.getItem('car') || '[]')
+  },
+  mutations: {
+    addToCar(state, goodsInfo) {
+      // 添加商品到购物车
+      // 如果商品不存在则直接push
+      // 如果商品存在则需要对商品的count属性做一些基本的累加操作再存储
+      // 假设商品不存在
+      let isFound = false
+      state.car.some(item => {
+        if (item.id == goodsInfo.id) {
+          item.count += goodsInfo.count
+          isFound = true
+          return true
+        }
+      })
+      // 循环过后如何判断是否存在该商品
+      if (!isFound) { //如果不存在
+        state.car.push(goodsInfo)
+      }
+
+      // 本地存储---只能存字符串
+      localStorage.setItem('car', JSON.stringify(state.car))
+    }
+  },
+  getters: {
+    totalCount(state) {
+      let totalCount = 0
+      state.car.forEach(item => totalCount += item.count)
+      return totalCount
+    }
+  }
 })
 
 Vue.config.productionTip = false
