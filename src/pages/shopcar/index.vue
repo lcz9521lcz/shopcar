@@ -2,15 +2,15 @@
   <div class="shopcar-container">
     <!-- 商品列表项区域 -->
     <div class="goods-list">
-      <div class="mui-card">
+      <div class="mui-card" v-for="item in goodsList" :key="item.id">
         <div class="mui-card-content">
           <div class="mui-card-content-inner cinner">
             <mt-switch></mt-switch>
-            <img src="../../assets/menu1.png" alt>
+            <img :src="item.thumb_path" alt>
             <div class="info">
-              <h3 class="title">标题</h3>
+              <h3 class="title">{{ item.title }}</h3>
               <div class="content">
-                <span class="price">¥ 3000</span>
+                <span class="price">¥ {{ item.sell_price }}</span>
                 <div class="num-box">
                   <input type="button" value="-">
                   <input type="text">
@@ -44,7 +44,32 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      goodsList: []
+    };
+  },
+  created() {
+    this.getShopcarList();
+  },
+  methods: {
+    getShopcarList() {
+      // 先获取到store中所有商品的id,然后拼接出一个用逗号分隔的字符串
+      let idArr = [];
+      this.$store.state.car.forEach(item => idArr.push(item.id));
+      // 如果购物车中没有商品则直接return返回,不需要请求数据接口否则会报错
+      if (idArr.length <= 0) {
+        return;
+      }
+      this.$http
+        .get("api/goods/getshopcarlist/" + idArr.join(","))
+        .then(result => {
+          this.goodsList = result.body.message;
+        });
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>
