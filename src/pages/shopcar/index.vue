@@ -37,8 +37,8 @@
             <h3 class="title">总计&nbsp;&nbsp;(不含运费)</h3>
             <p class="content">
               已勾选商品
-              <span>10</span> 件,&nbsp;&nbsp;总价&nbsp;¥
-              <span>200</span>
+              <span>{{ $store.getters.goodsCountAndAmount.count }}</span> 件,&nbsp;&nbsp;总价&nbsp;¥
+              <span>{{ $store.getters.goodsCountAndAmount.amount }}</span>
             </p>
           </div>
           <mt-button type="danger">去结算</mt-button>
@@ -79,11 +79,13 @@ export default {
       let goodsCountInp = this.$refs.goodsCountInp[i];
       if (goodsCountInp.value <= 1) return;
       goodsCountInp.value--;
+      this.changeCount(id, i);
     },
     // 自增
     inc(id, i) {
       let goodsCountInp = this.$refs.goodsCountInp[i];
       goodsCountInp.value++;
+      this.changeCount(id, i);
     },
     // 监听购买数量变化
     changeCount(id, i) {

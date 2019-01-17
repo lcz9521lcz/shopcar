@@ -91,6 +91,20 @@ const store = new Vuex.Store({
       let goodsInfo = {}
       state.car.forEach(item => goodsInfo[item.id] = item.count)
       return goodsInfo
+    },
+    // 商品的数量和总价
+    goodsCountAndAmount(state) {
+      let countAmount = {
+        count: 0,
+        amount: 0
+      }
+      state.car.forEach(item => {
+        if (item.selected) {
+          countAmount.count += item.count
+          countAmount.amount += item.count * item.price
+        }
+      })
+      return countAmount
     }
   }
 })
