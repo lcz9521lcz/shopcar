@@ -68,6 +68,17 @@ const store = new Vuex.Store({
 
       // 本地存储---只能存字符串
       localStorage.setItem('car', JSON.stringify(state.car))
+    },
+    // 更新购物车信息
+    updateCarInfo(state, goodsInfo) {
+      state.car.some(item => {
+        if (item.id == goodsInfo.id) {
+          item.count = parseInt(goodsInfo.count)
+          return true
+        }
+      })
+      // 本地存储变更后数据
+      localStorage.setItem('car', JSON.stringify(state.car))
     }
   },
   getters: {

@@ -17,6 +17,7 @@
                     type="text"
                     v-model="$store.getters.goodsCount[item.id]"
                     ref="goodsCountInp"
+                    @change="changeCount(item.id, i)"
                   >
                   <input type="button" value="+" @click="inc(item.id, i)">
                 </div>
@@ -83,6 +84,11 @@ export default {
     inc(id, i) {
       let goodsCountInp = this.$refs.goodsCountInp[i];
       goodsCountInp.value++;
+    },
+    // 监听购买数量变化
+    changeCount(id, i) {
+      let goodsCountInp = this.$refs.goodsCountInp[i];
+      this.$store.commit("updateCarInfo", { id, count: goodsCountInp.value });
     }
   }
 };
