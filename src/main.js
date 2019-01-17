@@ -75,6 +75,11 @@ const store = new Vuex.Store({
       let totalCount = 0
       state.car.forEach(item => totalCount += item.count)
       return totalCount
+    },
+    goodsCount(state) {
+      let goodsInfo = {}
+      state.car.forEach(item => goodsInfo[item.id] = item.count)
+      return goodsInfo
     }
   }
 })

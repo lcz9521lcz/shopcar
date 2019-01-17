@@ -2,7 +2,7 @@
   <div class="shopcar-container">
     <!-- 商品列表项区域 -->
     <div class="goods-list">
-      <div class="mui-card" v-for="item in goodsList" :key="item.id">
+      <div class="mui-card" v-for="(item, i) in goodsList" :key="item.id">
         <div class="mui-card-content">
           <div class="mui-card-content-inner cinner">
             <mt-switch></mt-switch>
@@ -12,9 +12,13 @@
               <div class="content">
                 <span class="price">¥ {{ item.sell_price }}</span>
                 <div class="num-box">
-                  <input type="button" value="-">
-                  <input type="text">
-                  <input type="button" value="+">
+                  <input type="button" value="-" @click="dec(item.id, i)">
+                  <input
+                    type="text"
+                    v-model="$store.getters.goodsCount[item.id]"
+                    ref="goodsCountInp"
+                  >
+                  <input type="button" value="+" @click="inc(item.id, i)">
                 </div>
                 <a href="#">删除</a>
               </div>
@@ -67,6 +71,18 @@ export default {
         .then(result => {
           this.goodsList = result.body.message;
         });
+    },
+    // 自减
+    dec(id, i) {
+      // 通过索引锁定当前输入框
+      let goodsCountInp = this.$refs.goodsCountInp[i];
+      if (goodsCountInp.value <= 1) return;
+      goodsCountInp.value--;
+    },
+    // 自增
+    inc(id, i) {
+      let goodsCountInp = this.$refs.goodsCountInp[i];
+      goodsCountInp.value++;
     }
   }
 };
@@ -100,11 +116,13 @@ export default {
               height: 100%;
               margin-bottom: 0;
               padding: 0;
+              text-align: center;
             }
             input[type="button"] {
               width: 30px;
               height: 100%;
               padding: 0;
+              text-align: center;
             }
           }
         }
