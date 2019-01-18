@@ -79,6 +79,28 @@ const store = new Vuex.Store({
       })
       // 本地存储变更后数据
       localStorage.setItem('car', JSON.stringify(state.car))
+    },
+    // 状态变化
+    updateGoodsSelected(state, goodsInfo) {
+      state.car.some(item => {
+        if (item.id == goodsInfo.id) {
+          item.selected = goodsInfo.selected
+          return true
+        }
+      })
+      // 本地存储最新数据
+      localStorage.setItem('car', JSON.stringify(state.car))
+    },
+    // 移除商品
+    removeGoods(state, id) {
+      state.car.some((item, i) => {
+        if (item.id == id) {
+          state.car.splice(i, 1)
+          return true
+        }
+      })
+      // 本地存储最新数据
+      localStorage.setItem('car', JSON.stringify(state.car))
     }
   },
   getters: {
@@ -105,6 +127,14 @@ const store = new Vuex.Store({
         }
       })
       return countAmount
+    },
+    // 商品的选中状态
+    goodsSelected(state) {
+      let goodsSelected = {}
+      state.car.forEach(item => {
+        goodsSelected[item.id] = item.selected
+      })
+      return goodsSelected
     }
   }
 })

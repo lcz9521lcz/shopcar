@@ -5,7 +5,10 @@
       <div class="mui-card" v-for="(item, i) in goodsList" :key="item.id">
         <div class="mui-card-content">
           <div class="mui-card-content-inner cinner">
-            <mt-switch></mt-switch>
+            <mt-switch
+              v-model="$store.getters.goodsSelected[item.id]"
+              @change="selectedChanged(item.id, $store.getters.goodsSelected[item.id])"
+            ></mt-switch>
             <img :src="item.thumb_path" alt>
             <div class="info">
               <h3 class="title">{{ item.title }}</h3>
@@ -21,7 +24,7 @@
                   >
                   <input type="button" value="+" @click="inc(item.id, i)">
                 </div>
-                <a href="#">删除</a>
+                <a href="#" @click.prevent="remove(item.id, i)">删除</a>
               </div>
             </div>
           </div>
@@ -91,6 +94,15 @@ export default {
     changeCount(id, i) {
       let goodsCountInp = this.$refs.goodsCountInp[i];
       this.$store.commit("updateCarInfo", { id, count: goodsCountInp.value });
+    },
+    // 监听状态改变
+    selectedChanged(id, selected) {
+      this.$store.commit("updateGoodsSelected", { id, selected });
+    },
+    // 移除商品
+    remove(id, i) {
+      this.goodsList.splice(i, 1);
+      this.$store.commit("removeGoods", id);
     }
   }
 };
