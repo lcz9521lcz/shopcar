@@ -1,7 +1,11 @@
 <template>
   <div class="app-container">
     <!-- 顶部 -->
-    <mt-header fixed title="九重天"></mt-header>
+    <mt-header fixed title="九重天">
+      <span @click="$router.go(-1)" v-show="$route.path !== '/home'" slot="left">
+        <mt-button icon="back">back</mt-button>
+      </span>
+    </mt-header>
 
     <!-- 底部导航 -->
     <nav class="mui-bar mui-bar-tab">
